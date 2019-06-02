@@ -1,11 +1,10 @@
 class CellType:
     BLANK = 1  # no reward
     WHOOPING = 2 # reward = -10
-    KFC = 3 # reward = 100 if you have enough cash
+    KFC = 3 # reward = 10
 
 class CellState:
     # initialize a cell for grid 
-    # cash only applies to cash cells
     def __init__(self, pos, reward, cell_type, is_terminal):
         self.__pos = pos
         self.__reward = reward

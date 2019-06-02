@@ -144,8 +144,10 @@ def create_game_env():
 
 env, states = create_game_env()
 agent = Agent("policy_eval", (0, 0))
+
 policy_iter_algo = PolicyIteration(states)
 policy = policy_iter_algo.run()
+
 game = Game(Config, Controller, env, agent, policy)
 # initiate env
 game.draw_env()
