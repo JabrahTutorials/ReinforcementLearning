@@ -38,6 +38,7 @@ class Environment(object):
         player_bust = self.player.total() > self.bust_thresh
         dealer_bust = self.dealer.total() > self.bust_thresh
         player_scored_higher = self.player.total() > self.dealer.total()
+        dealer_scored_higher = self.player.total() < self.dealer.total()
 
         # scoring when any of the players bust
         if player_bust and dealer_bust:
@@ -50,8 +51,10 @@ class Environment(object):
         # scoring based on scores
         if player_scored_higher:
             return 1
-        else:
+        elif dealer_scored_higher:
             return -1
+        else:
+            return 0
         
         
     

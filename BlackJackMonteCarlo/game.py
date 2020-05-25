@@ -6,7 +6,7 @@ from player import Player
 from environment import Environment
 from controllers.manual_controller import ManualController
 
-class Game(object):
+class BlackJack(object):
     def __init__(self, config, env, controller):
         pygame.init()
         self.win_ = pygame.display.set_mode((config.screen_width,
@@ -110,7 +110,7 @@ class Game(object):
                     self.dealer_wins = 1
                 else:
                     self.dealer_wins = -1
-    
+
             self.draw_env()
             pygame.display.update()
         pygame.quit()
@@ -119,7 +119,7 @@ player = Player(cards)
 dealer = Player(cards)
 env = Environment(player, dealer)
 
-game = Game(Config, env, ManualController)
+game = BlackJack(Config, env, ManualController)
 game.draw_env()
 pygame.display.update()
 game.start()
