@@ -1,3 +1,4 @@
+import os
 import cv2
 import pygame
 import math
@@ -63,3 +64,9 @@ def get_speed(vehicle):
 
 def correct_yaw(x):
     return(((x%360) + 360) % 360)
+
+def create_folders(folder_names):
+    for directory in folder_names:
+        if not os.path.exists(directory):
+                # If it doesn't exist, create it
+                os.makedirs(directory)

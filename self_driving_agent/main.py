@@ -1,10 +1,9 @@
-import torch
-
+import os
 
 from DQN_Control.replay_buffer import ReplayBuffer
 from DQN_Control.model import DQN
 
-from config import action_map
+from config import action_map, env_params
 from utils import *
 from environment import SimEnv
 
@@ -21,9 +20,12 @@ def run():
 
         replay_buffer = ReplayBuffer(state_dim, batch_size, buffer_size, device)
         model = DQN(num_actions, state_dim, in_channels, device)
+
+        # this only works if you have a model in your weights folder. Replace this by that file
         model.load('weights/model_ep_4400')
 
-        env = SimEnv(visuals=False)
+        # set to True if you want to run with pygame
+        env = SimEnv(visuals=True, **env_params)
 
         for ep in range(episodes):
             env.create_actors()

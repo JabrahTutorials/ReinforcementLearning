@@ -22,7 +22,16 @@ from utils import *
 random.seed(78)
 
 class SimEnv(object):
-    def __init__(self, visuals=True) -> None:
+    def __init__(self, 
+        visuals=True,
+        target_speed = 30,
+        max_iter = 4000,
+        start_buffer = 10,
+        train_freq = 1,
+        save_freq = 200,
+        start_ep = 0,
+        max_dist_from_waypoint = 20
+    ) -> None:
         self.visuals = visuals
         if self.visuals:
             self._initiate_visuals()
@@ -46,17 +55,17 @@ class SimEnv(object):
 
         # input these later on as arguments
         self.global_t = 0 # global timestep
-        self.target_speed = 30 # km/h 
-        self.max_iter = 4000
-        self.start_buffer = 10
-        self.train_freq = 1
-        self.save_freq = 200
-        self.total_rewards = 0
-        self.start_ep = 0
+        self.target_speed = target_speed # km/h 
+        self.max_iter = max_iter
+        self.start_buffer = start_buffer
+        self.train_freq = train_freq
+        self.save_freq = save_freq
+        self.start_ep = start_ep
 
-        self.max_dist_from_waypoint = 20
+        self.max_dist_from_waypoint = max_dist_from_waypoint
         self.start_train = self.start_ep + self.start_buffer
-
+        
+        self.total_rewards = 0
         self.average_rewards_list = []
     
     def _initiate_visuals(self):
@@ -188,13 +197,12 @@ class SimEnv(object):
                 self.save(model, ep)
 
     def save(self, model, ep):
-        if ep % self.save_freq == 0 and ep > 0:
+        if ep % self.save_freq == 0 and ep > self.start_ep:
             avg_reward = self.total_rewards/self.save_freq
             self.average_rewards_list.append(avg_reward)
-            total_rewards = 0
+            self.total_rewards = 0
 
             model.save('weights/model_ep_{}'.format(ep))
-            pickle.dump(self.average_rewards_list, open('misc/avg_rewards_{}.pkl'.format(self.start_ep), 'wb'))
 
             print("Saved model with average reward =", avg_reward)
     
